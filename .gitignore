@@ -1,0 +1,33 @@
+# macOS
+.DS_Store
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.env
+.env.*    # for Vite or Supabase secrets
+
+# Build
+dist/
+build/
+.vite/
+coverage/
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+logs/
+*.sqlite
+
+# Optional OS + editor
+.idea/
+*.swp
+*.swo
+
+# Supabase local config (if used)
+.supabase/

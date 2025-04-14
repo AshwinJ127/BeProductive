@@ -1,0 +1,362 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------- */
+/* 🌐 GLOBAL CSS VARS  */
+/* ------------------- */
+:root {
+  /* Light mode (default) */
+  --color-primary: #b91c1c;           /* red-700 - darker for better contrast */
+  --color-primary-dark: #7f1d1d;      /* red-900 */
+  --color-accent: #dc2626;            /* red-600 */
+  --color-bg: #fff5f5;                /* red-50 */
+  --color-card: #fef2f2;              /* red-100 */
+  --color-text: #450a0a;              /* red-950 */
+  --color-text-muted: #7f1d1d;        /* red-900 */
+}
+
+/* Dark mode overrides */
+.dark {
+  --color-primary: #dc2626;           /* red-600 */
+  --color-primary-dark: #991b1b;      /* red-800 */
+  --color-accent: #f87171;            /* red-400 */
+  --color-bg: #1a0000;                /* deep background */
+  --color-card: #220000;
+  --color-text: #fee2e2;              /* red-100 */
+  --color-text-muted: #fca5a5;        /* red-300 */
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ------------------- */
+/* 🌒 BASE STYLES      */
+/* ------------------- */
+body {
+  @apply transition-all ease-in-out duration-500;
+  background: linear-gradient(to bottom right, var(--color-bg), #fecaca); /* Light mode gradient from red-50 to red-200 */
+  color: var(--color-text);
+  font-family: 'Oxanium', cursive;
+}
+
+/* Dark mode background override */
+.dark body {
+  background: linear-gradient(to bottom right, var(--color-bg), black);
+}
+
+/* ------------------- */
+/* 🧱 REUSABLE UTILITIES */
+/* ------------------- */
+@layer components {
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+
+  .bg-primary-dark {
+    background-color: var(--color-primary-dark);
+  }
+
+  .text-accent {
+    color: var(--color-accent);
+  }  
+
+  .text-muted {
+    color: var(--color-text-muted);
+  }
+
+  .border-primary {
+    border-color: var(--color-primary-dark);
+  }
+}
+
+/* ------------------- */
+/* 🔘 BUTTONS          */
+/* ------------------- */
+.btn {
+  @apply inline-flex items-center justify-center
+         px-5 py-2.5 rounded-xl font-medium 
+         tracking-wide uppercase text-sm
+         transition-all ease-in-out duration-300 
+         transform hover:scale-105 active:scale-95 
+         focus:outline-none focus:ring-2 focus:ring-opacity-50;
+}
+
+.btn-primary {
+  background: linear-gradient(to right, #991b1b, #b91c1c, #dc2626);
+  @apply text-white shadow-lg hover:shadow-xl focus:ring-red-400;
+}
+
+.btn-secondary {
+  @apply bg-red-200 text-red-900 dark:bg-red-700 dark:text-red-100 
+         hover:bg-red-300 dark:hover:bg-red-600 
+         shadow hover:shadow-md focus:ring-red-400;
+}
+
+/* ------------------- */
+/* ✏️ INPUTS           */
+/* ------------------- */
+.input {
+  @apply w-full px-4 py-2.5 rounded-lg 
+         border border-red-300 dark:border-red-800 
+         bg-white dark:bg-red-950 
+         shadow-sm hover:shadow-md 
+         transition-all ease-in-out duration-200 
+         focus:outline-none focus:ring-2 focus:ring-red-600 
+         focus:border-transparent 
+         placeholder-red-500 dark:placeholder-red-700
+         text-red-950 dark:text-red-100;
+}
+
+/* ------------------- */
+/* 🧾 CARDS            */
+/* ------------------- */
+.card {
+  @apply bg-gradient-to-br from-white to-red-50
+         dark:from-gray-900 dark:to-black 
+         rounded-2xl shadow-md hover:shadow-2xl 
+         transition-all ease-in-out duration-300 
+         border border-red-200 dark:border-gray-800 
+         p-6 sm:p-8 md:p-10 hover:-translate-y-1 hover:scale-[1.01];
+}
+
+/* ------------------- */
+/* 🏷️ TAGS             */
+/* ------------------- */
+.tag {
+  @apply inline-flex items-center px-3 py-1 
+         rounded-full text-xs font-semibold 
+         bg-red-100 dark:bg-red-900 
+         text-red-900 dark:text-red-300 
+         transform transition-all duration-200 
+         hover:scale-105 active:rotate-1 
+         cursor-pointer shadow-sm hover:shadow-md
+         hover:bg-red-200 dark:hover:bg-red-800
+         border border-red-200 dark:border-red-800;
+}
+
+/* ------------------- */
+/* ⏳ TIMER DISPLAY    */
+/* ------------------- */
+.timer-display {
+  @apply text-5xl font-extrabold text-center my-6 
+         bg-clip-text text-transparent 
+         bg-gradient-to-r from-red-800 to-red-600 
+         dark:from-red-400 dark:to-red-300 
+         animate-pulse-slow;
+}
+
+/* ------------------- */
+/* 🌀 ANIMATIONS       */
+/* ------------------- */
+@layer utilities {
+  .animate-pulse-slow {
+    animation: pulse 2.8s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+  }
+
+  .hover-lift {
+    @apply transition-transform ease-in-out duration-200 
+           hover:-translate-y-1;
+  }
+
+  .glass {
+    @apply bg-white bg-opacity-70 dark:bg-red-950 dark:bg-opacity-30 
+           backdrop-blur-lg backdrop-filter 
+           rounded-2xl p-8 sm:p-10 
+           border border-red-200 border-opacity-50 dark:border-red-800 dark:border-opacity-30 
+           shadow-lg;
+  }
+
+  .text-padded { @apply px-6 py-3; }
+  .text-padded-sm { @apply px-4 py-2; }
+  .text-padded-lg { @apply px-8 py-4; }
+  .rotate-on-hover { @apply transition-transform duration-300 hover:rotate-1; }
+}
+
+
+/* ------------------- */
+@layer components {
+  .bomb-shell {
+    @apply relative w-40 h-40 rounded-full border-4 border-gray-800 
+           bg-gradient-to-br from-gray-900 to-black 
+           shadow-xl overflow-visible;
+  }
+
+  .bomb-shell::before {
+    content: '';
+    @apply absolute -top-10 -left-10 w-16 h-16
+           bg-gradient-to-br from-gray-400 to-transparent
+           opacity-5 rounded-full
+           transform rotate-45;
+  }
+
+  .bomb-fuse {
+    @apply absolute w-1.5 h-20 
+           bg-gradient-to-b from-orange-400 via-red-500 to-gray-700
+           -rotate-45 origin-bottom;
+    top: -5rem;
+    left: -1rem;
+    transform-origin: bottom;
+    animation: fuse-burn linear forwards;
+  }
+
+  .bomb-string {
+    @apply absolute w-0.5 h-24 bg-gray-700
+           -rotate-45 origin-bottom;
+    top: -6rem;
+    left: -1rem;
+    transform-origin: bottom;
+  }
+
+  .bomb-fuse-glow {
+    @apply absolute w-3 h-3 rounded-full 
+           bg-gradient-to-r from-orange-500 to-red-500 
+           blur-sm;
+    top: -5rem;
+    left: -1rem;
+    animation: glow-pulse 0.5s ease-in-out infinite alternate;
+  }
+
+  .bomb-spark {
+    @apply absolute text-yellow-500;
+    top: -5.5rem;
+    left: -1.2rem;
+    font-size: 1rem;
+    animation: spark-flicker 0.25s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 5px rgba(255, 166, 0, 0.7));
+  }
+
+  .bomb-text {
+    @apply text-4xl font-bold
+           text-white
+           drop-shadow-lg absolute
+           inset-0 flex items-center justify-center;
+    /* Oxanium font is already set in body */
+  }
+
+  .bomb-exploded {
+    @apply after:content-['💥'] after:absolute 
+           after:inset-0 after:flex after:items-center 
+           after:justify-center after:text-6xl
+           after:animate-bounce;
+    animation: explosion 0.5s ease-out forwards;
+  }
+
+  .bomb-frozen {
+    @apply bg-gradient-to-br from-yellow-500 to-red-600 scale-105 rotate-1 border-yellow-300;
+    box-shadow: 0 0 30px 10px rgba(255, 0, 0, 0.4);
+  }
+
+  @keyframes fuse-burn {
+    0% { 
+      height: 5rem; 
+      opacity: 1;
+      transform: rotate(-45deg) scaleY(1);
+    }
+    100% { 
+      height: 0;
+      opacity: 0;
+      transform: rotate(-45deg) scaleY(0);
+    }
+  }
+
+  @keyframes glow-pulse {
+    0% { 
+      opacity: 1;
+      transform: scale(1) rotate(-45deg);
+    }
+    100% { 
+      opacity: 0.5;
+      transform: scale(1.2) rotate(-45deg);
+    }
+  }
+
+  @keyframes spark-flicker {
+    0% { 
+      opacity: 1;
+      transform: rotate(-45deg) scale(1);
+    }
+    100% { 
+      opacity: 0.7;
+      transform: rotate(-35deg) scale(0.9);
+    }
+  }
+
+  @keyframes explosion {
+    0% { 
+      transform: scale(1);
+      opacity: 1; 
+    }
+    50% { 
+      transform: scale(1.5);
+      opacity: 0.8; 
+    }
+    100% { 
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+
+  .checkbox {
+    @apply w-6 h-6 flex items-center justify-center 
+           rounded-md border-2 border-red-600;
+    background-color: var(--color-bg);
+  }
+
+  .checkbox-checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary-dark);
+  }
+
+  .checkbox-unchecked {
+    background-color: transparent;
+  }
+
+  .checkbox-icon {
+    @apply w-4 h-4 text-white;
+  }
+
+  .text-primary {
+    color: var(--color-primary);
+  }
+  .text-accent {
+    color: var(--color-accent);
+  }
+}
+
+@layer components {
+    .custom-select {
+      @apply appearance-none bg-white dark:bg-red-950
+             text-sm px-4 pr-8 py-2 rounded-md 
+             border border-red-300 dark:border-red-600 
+             text-red-900 dark:text-red-100
+             focus:outline-none focus:ring-2 focus:ring-red-600
+             truncate shadow-sm;
+      background-image: url("data:image/svg+xml,%3Csvg fill='%23b91c1c' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' d='M10 12a1 1 0 01-.707-.293l-4-4a1 1 0 011.414-1.414L10 9.586l3.293-3.293a1 1 0 111.414 1.414l-4 4A1 1 0 0110 12z' clip-rule='evenodd'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      background-size: 1rem;
+    }
+  }
+
+
+@layer utilities {
+
+  .animate-softPulse {
+    animation: softPulse 2s infinite ease-in-out;
+  }
+
+  @keyframes softPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.03); opacity: 0.9; }
+  }
+
+}
