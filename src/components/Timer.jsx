@@ -182,16 +182,18 @@ function Timer({ task, onTimerComplete }) {
             />
           ) : (
             <>
-              {task ? `Timer: ${task.title}` : editedTitle} {/* Display task title or custom title */} {/* */}
+              <span style={{ flexGrow: 1, textAlign: 'center' }}>
+                {task ? `Timer: ${task.title}` : editedTitle}
+              </span>
 
               {/* Conditionally render pencil or X based on 'task' prop */}
               {!task && ( // Show pencil only if no task is associated
-                <button onClick={() => setEditingTitle(true)} className="ml-2 text-gray-500 hover:text-gray-800">
+                <button onClick={() => setEditingTitle(true)} className="ml-2 text-gray-500 hover:text-gray-800 flex-shrink-0">
                   ✎
                 </button>
               )}
               {task && ( // Show 'x' only if a task is associated
-                <button onClick={() => onTimerComplete(task.id, 0)} className="ml-1 text-red-500 hover:text-red-700" title="Remove Task From Timer">
+                <button onClick={() => onTimerComplete(task.id, 0)} className="ml-1 text-red-500 hover:text-red-700 flex-shrink-0" title="Remove Task From Timer">
                   &times;
                 </button>
               )}
