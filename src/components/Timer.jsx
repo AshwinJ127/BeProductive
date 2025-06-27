@@ -12,39 +12,31 @@ function Timer({ task, onTimerComplete }) {
   const intervalRef = useRef(null)
 
   const [editingTitle, setEditingTitle] = useState(false);
-  // Initialize editedTitle based on task or a default 'Countdown Timer'
-  const [editedTitle, setEditedTitle] = useState(task?.title || 'Countdown Timer'); //
+  const [editedTitle, setEditedTitle] = useState(task?.title || 'Countdown Timer');
 
   useEffect(() => {
-    // When task changes, update editedTitle.
-    // If task is null, reset to 'Countdown Timer'
-    setEditedTitle(task?.title || 'Countdown Timer'); //
+    setEditedTitle(task?.title || 'Countdown Timer');
   }, [task]);
 
   const updateTaskTitle = async () => {
-    // Only update if a task is present AND the title has actually changed
-    // OR if no task is present, we're just editing the default 'Countdown Timer' text
-    if (task && (editedTitle.trim() === '' || editedTitle === task.title)) return; //
-    if (!task && editedTitle.trim() === 'Countdown Timer') return; // Don't save if it's default and no task
+    if (task && (editedTitle.trim() === '' || editedTitle === task.title)) return;
+    if (!task && editedTitle.trim() === 'Countdown Timer') return;
 
     try {
-      if (task) { // If a task is associated, update its title in Supabase
+      if (task) {
         const { error } = await supabase
           .from('tasks')
           .update({ title: editedTitle.trim() })
           .eq('id', task.id);
         if (error) throw error;
-        // Optional: trigger a refresh or inform parent component
       }
-      // If no task, the editedTitle just lives in local state for the display
     } catch (err) {
-      console.error('Failed to update title:', err); //
+      console.error('Failed to update title:', err);
     }
   };
 
 
   useEffect(() => {
-    // Request notification permission on component mount
     if (Notification.permission !== 'granted') {
       Notification.requestPermission()
     }
@@ -105,11 +97,10 @@ function Timer({ task, onTimerComplete }) {
     setIsRunning(false)
     setShowVisualAlert(true)
 
-    // Send notification if permission is granted
     if (Notification.permission === 'granted') {
       new Notification("Time's up!", {
         body: task ? `Task "${task.title}" is complete.` : "Your timer has finished.",
-        icon: '/path/to/icon.png' // Optional: Add an icon for the notification
+        icon: '/path/to/icon.png'
       })
     }
 
@@ -155,10 +146,17 @@ function Timer({ task, onTimerComplete }) {
     }
   }, [])
 
+  // Define a consistent icon width for spacing
+  // The pencil icon is wider than the 'x' character. Let's base it on the pencil.
+  // You might need to adjust this value (e.g., '24px', '1.5rem')
+  // based on the actual rendered size of your pencil icon.
+  const iconWidth = '24px'; // Estimate the width of your pencil icon for spacing
+
   return (
     <div className="card">
-      <h2 style={{ display: 'flex', justifyContent: 'center', fontSize: '24px', alignItems: 'center', paddingBottom: '10px' }} className="text-xl font-semibold mb-4 text-text">
-        <div className="flex items-center gap-2">
+      <h2 className="text-xl font-semibold mb-4 text-text"
+          style={{ paddingBottom: '10px' }}> {/* Removed absolute positioning from h2 for this approach */}
+        <div className="flex items-center justify-center"> {/* This flex container centers its content */}
           {editingTitle ? (
             <input
               type="text"
@@ -173,27 +171,40 @@ function Timer({ task, onTimerComplete }) {
                   setEditingTitle(false);
                   updateTaskTitle();
                 } else if (e.key === 'Escape') {
-                  setEditedTitle(task?.title || 'Countdown Timer'); //
+                  setEditedTitle(task?.title || 'Countdown Timer');
                   setEditingTitle(false);
                 }
               }}
-              className="input text-lg px-2 py-1 border rounded"
+              className="input text-lg px-2 py-1 border rounded w-full text-center"
               autoFocus
             />
           ) : (
             <>
-              <span style={{ flexGrow: 1, textAlign: 'center' }}>
-                {task ? `${task.title}` : editedTitle}
+              {/* Spacer on the left to visually balance the icon on the right */}
+              <div style={{ width: iconWidth, flexShrink: 0, height: '1px' }}></div> {/* Add height to prevent collapse */}
+
+              {/* The main title text, centered */}
+              <span className="flex-grow text-center">
+                {task ? `Timer: ${task.title}` : editedTitle}
               </span>
 
               {/* Conditionally render pencil or X based on 'task' prop */}
               {!task && ( // Show pencil only if no task is associated
-                <button onClick={() => setEditingTitle(true)} className="ml-2 text-gray-500 hover:text-gray-800 flex-shrink-0">
+                <button
+                  onClick={() => setEditingTitle(true)}
+                  className="text-gray-500 hover:text-gray-800 flex-shrink-0"
+                  style={{ width: iconWidth, transform: 'translateY(-2px)' }} // Maintain icon width and vertical adjust
+                >
                   ✎
                 </button>
               )}
               {task && ( // Show 'x' only if a task is associated
-                <button onClick={() => onTimerComplete(task.id, 0)} className="ml-1 text-red-500 hover:text-red-700 flex-shrink-0" title="Remove Task From Timer">
+                <button
+                  onClick={() => onTimerComplete(task.id, 0)}
+                  className="text-red-500 hover:text-red-700 flex-shrink-0"
+                  title="Remove Task From Timer"
+                  style={{ width: iconWidth, transform: 'translateY(-2px)' }} // Maintain icon width and vertical adjust
+                >
                   &times;
                 </button>
               )}
