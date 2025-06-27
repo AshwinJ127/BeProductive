@@ -148,9 +148,9 @@ function Timer({ task, onTimerComplete }) {
 
   return (
     <div className="card">
-      {/* Use relative positioning for h2 to allow absolute positioning of icons */}
-      <h2 className="text-xl font-semibold mb-4 text-text relative"
-          style={{ paddingBottom: '10px' }}> {/* Removed inline flex styles from h2 */}
+      {/* Use relative positioning for h2. Add flex to center content, and fine-tune item alignment. */}
+      <h2 className="text-xl font-semibold mb-4 text-text relative flex items-center justify-center"
+          style={{ paddingBottom: '10px' }}>
 
         {editingTitle ? (
           <input
@@ -170,23 +170,22 @@ function Timer({ task, onTimerComplete }) {
                 setEditingTitle(false);
               }
             }}
-            className="input text-lg px-2 py-1 border rounded w-full text-center" // Center input text as well
+            className="input text-lg px-2 py-1 border rounded w-full text-center"
             autoFocus
           />
         ) : (
           <>
-            {/* Main title text, centered */}
-            <span style={{ display: 'block', textAlign: 'center' }}>
+            {/* The main text */}
+            <span>
               {task ? `Timer: ${task.title}` : editedTitle}
             </span>
 
-            {/* Icons positioned absolutely to the right */}
-            {/* For the pencil, adjust right position to be next to the text */}
+            {/* Conditionally render pencil or X based on 'task' prop */}
             {!task && ( // Show pencil only if no task is associated
               <button
                 onClick={() => setEditingTitle(true)}
-                className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-800"
-                style={{ right: '0' }} // Adjust as needed for spacing from the card edge
+                className="text-gray-500 hover:text-gray-800"
+                style={{ marginLeft: '0.5rem', transform: 'translateY(-2px)' }} // Adjusted margin and subtle vertical adjust
               >
                 ✎
               </button>
@@ -194,9 +193,9 @@ function Timer({ task, onTimerComplete }) {
             {task && ( // Show 'x' only if a task is associated
               <button
                 onClick={() => onTimerComplete(task.id, 0)}
-                className="absolute right-0 top-1/2 -translate-y-1/2 text-red-500 hover:text-red-700"
+                className="text-red-500 hover:text-red-700"
                 title="Remove Task From Timer"
-                style={{ right: '0' }} // Adjust as needed for spacing from the card edge
+                style={{ marginLeft: '0.25rem', transform: 'translateY(-2px)' }} // Adjusted margin and subtle vertical adjust
               >
                 &times;
               </button>
