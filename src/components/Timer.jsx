@@ -183,7 +183,7 @@ function Timer({ task, onTimerComplete }) {
           ) : (
             <>
               <span style={{ flexGrow: 1, textAlign: 'center' }}>
-                {task ? '${task.title}' : editedTitle}
+                {task ? `${task.title} :` : ''} {editedTitle}
               </span>
 
               {/* Conditionally render pencil or X based on 'task' prop */}
